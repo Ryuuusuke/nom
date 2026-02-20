@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -334,6 +335,17 @@ func getStyleConfigWithOverrides(theme config.Theme) (sc ansi.StyleConfig) {
 		sc = glamour.ASCIIStyleConfig
 	case "notty":
 		sc = glamour.NoTTYStyleConfig
+	case "custom":
+		sc = glamour.DarkStyleConfig
+		data, err := os.ReadFile(theme.CustomPath)
+		if err != nil {
+			log.Println(err)
+			sc = glamour.DarkStyleConfig
+		}
+		if err := json.Unmarshal(data, &sc); err != nil {
+			log.Println(err)
+			sc = glamour.DarkStyleConfig
+		}
 	default:
 		sc = glamour.DarkStyleConfig
 	}
