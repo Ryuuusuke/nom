@@ -53,7 +53,7 @@ type model struct {
 	viewport        viewport.Model
 	lastRead        *list.Item
 	lastReadIndex   int
-	isLoading       bool
+	isRefreshing    bool
 }
 
 func (m model) Init() tea.Cmd {
